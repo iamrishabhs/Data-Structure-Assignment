@@ -1,0 +1,50 @@
+import random
+
+# Array of words for the game
+word_array = ['hacker', 'malware', 'virus', 'worms']
+
+# Select a random word from the array
+selected_word = random.choice(word_array)
+
+# Maximum number of attempts allowed (5-8)
+max_attempts = random.randint(5, 8)
+
+# Initialize a set to track guessed letters
+guessed_letters = set()
+
+# Main game loop
+for attempt in range(max_attempts):
+    # Display the current state of the word with underscores for unknown letters
+    display_word = ''.join([letter if letter in guessed_letters or letter == ' ' else '_' for letter in selected_word])
+    
+    print(f"\nAttempt {attempt + 1}/{max_attempts}")
+    print(f"Current word: {display_word}")
+    
+    # Ask the player for a letter guess
+    guess = input("Guess a letter: ").lower()
+    
+    # Validate the guess
+    if len(guess) != 1 or not guess.isalpha():
+        print("Invalid input. Please enter a single letter.")
+        continue
+    
+    # Check if the letter has already been guessed
+    if guess in guessed_letters:
+        print("You've already guessed that letter. Try a different one.")
+        continue
+    
+    # Add the guessed letter to the set
+    guessed_letters.add(guess)
+    
+    # Check if the guess is in the selected word
+    if guess in selected_word:
+        print("Correct guess!")
+        
+        # Check if the player has guessed all the letters (excluding spaces)
+        if all(letter in guessed_letters or letter == ' ' for letter in selected_word):
+            print(f"You win! The word was '{selected_word}'.")
+            break
+    else:
+        print("Incorrect guess.")
+else:
+    print(f"Sorry, you lost! The word was '{selected_word}'.")
